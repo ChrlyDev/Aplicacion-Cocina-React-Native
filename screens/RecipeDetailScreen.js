@@ -12,6 +12,7 @@ import {
   Dimensions
 } from 'react-native';
 import { mealAPI } from '../services/api';
+import favoritesService from '../services/favoritesService';
 
 const { width } = Dimensions.get('window');
 
@@ -19,9 +20,12 @@ const RecipeDetailScreen = ({ route, navigation }) => {
   const { mealId } = route.params;
   const [recipe, setRecipe] = useState(null);
   const [loading, setLoading] = useState(true);
+  const [isFavorite, setIsFavorite] = useState(false);
+  const [favoriteLoading, setFavoriteLoading] = useState(false);
 
   useEffect(() => {
     fetchRecipeDetails();
+    checkFavoriteStatus();
   }, [mealId]);
 
   const fetchRecipeDetails = async () => {
@@ -33,6 +37,36 @@ const RecipeDetailScreen = ({ route, navigation }) => {
       Alert.alert('Error', 'No se pudieron cargar los detalles de la receta');
     } finally {
       setLoading(false);
+    }
+  };
+
+  const checkFavoriteStatus = async () => {
+    try {
+      const favoriteStatus = await favoritesService.isFavorite(mealId);
+      setIsFavorite(favoriteStatus);
+    } catch (error) {
+      console.error('Error checking favorite status:', error);
+    }
+  };
+
+  const toggleFavorite = async () => {
+    if (!recipe) return;
+    
+    try {
+      setFavoriteLoading(true);
+      const newFavoriteStatus = await favoritesService.toggleFavorite(recipe);
+      setIsFavorite(newFavoriteStatus);
+      
+      Alert.alert(
+        'Éxito',
+        newFavoriteStatus 
+          ? 'Receta agregada a favoritos' 
+          : 'Receta eliminada de favoritos'
+      );
+    } catch (error) {
+      Alert.alert('Error', 'No se pudo actualizar favoritos');
+    } finally {
+      setFavoriteLoading(false);
     }
   };
 
@@ -92,6 +126,16 @@ const RecipeDetailScreen = ({ route, navigation }) => {
           onPress={() => navigation.goBack()}
         >
           <Text style={styles.backButtonText}>← Volver</Text>
+        </TouchableOpacity>
+        
+        <TouchableOpacity 
+          style={styles.favoriteButton}
+          onPress={toggleFavorite}
+          disabled={favoriteLoading}
+        >
+          <Text style={styles.favoriteButtonText}>
+            {favoriteLoading ? '...' : (isFavorite ? '❤️' : '🤍')}
+          </Text>
         </TouchableOpacity>
       </View>
       
@@ -169,6 +213,20 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  favoriteButton: {
+    position: 'absolute',
+    top: 50,
+    right: 20,
+    backgroundColor: 'rgba(0,0,0,0.5)',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  favoriteButtonText: {
+    fontSize: 24,
   },
   content: {
     padding: 20,

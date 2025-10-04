@@ -75,12 +75,20 @@ const SearchScreen = ({ navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.backButtonText}>← Volver</Text>
-        </TouchableOpacity>
+        <View style={styles.headerTop}>
+          <TouchableOpacity 
+            style={styles.backButton}
+            onPress={() => navigation.goBack()}
+          >
+            <Text style={styles.backButtonText}>← Volver</Text>
+          </TouchableOpacity>
+          <TouchableOpacity 
+            style={styles.favoritesButton}
+            onPress={() => navigation.navigate('Favorites')}
+          >
+            <Text style={styles.favoritesButtonText}>❤️</Text>
+          </TouchableOpacity>
+        </View>
         <Text style={styles.title}>Buscar Recetas</Text>
         <Text style={styles.subtitle}>Encuentra tu receta favorita</Text>
       </View>
@@ -163,14 +171,33 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     backgroundColor: '#4CAF50',
   },
-  backButton: {
-    alignSelf: 'flex-start',
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
     marginBottom: 10,
+  },
+  backButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 20,
+    paddingHorizontal: 15,
+    paddingVertical: 8,
   },
   backButtonText: {
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  favoritesButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  favoritesButtonText: {
+    fontSize: 24,
   },
   title: {
     fontSize: 28,

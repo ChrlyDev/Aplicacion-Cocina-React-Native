@@ -20,6 +20,7 @@
         "foregroundImage": "./assets/adaptive-icon.png",
         "backgroundColor": "#ffffff"
       },
+      "package": "com.chrly.recetApp",
       "edgeToEdgeEnabled": true
     },
     "web": {
@@ -27,6 +28,11 @@
     },
     "plugins": [
       "expo-router"
-    ]
+    ],
+    "extra": {
+      "eas": {
+        "projectId": "4b6db411-6baa-4949-bebc-9b8982ee1cb5"
+      }
+    }
   }
 }

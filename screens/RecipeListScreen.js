@@ -84,12 +84,20 @@ const RecipeListScreen = ({ route, navigation }) => {
   return (
     <View style={styles.container}>
       <View style={styles.header}>
-        <TouchableOpacity 
-          style={styles.backButton}
-          onPress={() => navigation.goBack()}
-        >
-          <Text style={styles.backButtonText}>← Volver</Text>
-        </TouchableOpacity>
+        <View style={styles.headerTop}>
+                  <TouchableOpacity 
+                    style={styles.backButton}
+                    onPress={() => navigation.goBack()}
+                  >
+                    <Text style={styles.backButtonText}>← Volver</Text>
+                  </TouchableOpacity>
+                  <TouchableOpacity 
+                    style={styles.favoritesButton}
+                    onPress={() => navigation.navigate('Favorites')}
+                  >
+                    <Text style={styles.favoritesButtonText}>❤️</Text>
+                  </TouchableOpacity>
+                </View>
         <Text style={styles.title}>{categoryName}</Text>
         <TextInput
           style={styles.searchInput}
@@ -130,6 +138,12 @@ const styles = StyleSheet.create({
     paddingTop: 60,
     backgroundColor: '#FF6B6B',
   },
+  headerTop: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    alignItems: 'center',
+    marginBottom: 10,
+  },
   backButton: {
     alignSelf: 'flex-start',
     marginBottom: 10,
@@ -138,6 +152,17 @@ const styles = StyleSheet.create({
     color: 'white',
     fontSize: 16,
     fontWeight: '600',
+  },
+  favoritesButton: {
+    backgroundColor: 'rgba(255,255,255,0.2)',
+    borderRadius: 25,
+    width: 50,
+    height: 50,
+    justifyContent: 'center',
+    alignItems: 'center',
+  },
+  favoritesButtonText: {
+    fontSize: 24,
   },
   title: {
     fontSize: 24,

@@ -8,6 +8,7 @@ import CategoriesScreen from './screens/CategoriesScreen';
 import RecipeListScreen from './screens/RecipeListScreen';
 import RecipeDetailScreen from './screens/RecipeDetailScreen';
 import SearchScreen from './screens/SearchScreen';
+import FavoritesScreen from './screens/FavoritesScreen';
 
 const Stack = createStackNavigator();
 
@@ -40,11 +41,18 @@ export default function App() {
             options={({ navigation }) => ({
               headerShown: false,
               headerRight: () => (
-                <HeaderButton
-                  onPress={() => navigation.navigate('Search')}
-                  title="Buscar"
-                  color="#fff"
-                />
+                <View style={{ flexDirection: 'row' }}>
+                  <HeaderButton
+                    onPress={() => navigation.navigate('Favorites')}
+                    title="❤️"
+                    color="#fff"
+                  />
+                  <HeaderButton
+                    onPress={() => navigation.navigate('Search')}
+                    title="Buscar"
+                    color="#fff"
+                  />
+                </View>
               ),
             })}
           />
@@ -55,11 +63,18 @@ export default function App() {
               headerShown: false,
               title: route.params?.categoryName || 'Recetas',
               headerRight: () => (
-                <HeaderButton
-                  onPress={() => navigation.navigate('Search')}
-                  title="Buscar"
-                  color="#fff"
-                />
+                <View style={{ flexDirection: 'row' }}>
+                  <HeaderButton
+                    onPress={() => navigation.navigate('Favorites')}
+                    title="❤️"
+                    color="#fff"
+                  />
+                  <HeaderButton
+                    onPress={() => navigation.navigate('Search')}
+                    title="Buscar"
+                    color="#fff"
+                  />
+                </View>
               ),
             })}
           />
@@ -77,6 +92,14 @@ export default function App() {
             options={{
               headerShown: false,
               title: 'Buscar Recetas',
+            }}
+          />
+          <Stack.Screen
+            name="Favorites"
+            component={FavoritesScreen}
+            options={{
+              headerShown: false,
+              title: 'Mis Favoritos',
             }}
           />
         </Stack.Navigator>

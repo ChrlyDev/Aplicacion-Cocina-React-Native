@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect } from "react";
 import {
   View,
   Text,
@@ -9,11 +9,11 @@ import {
   ActivityIndicator,
   Alert,
   Dimensions,
-  ScrollView
-} from 'react-native';
-import { mealAPI } from '../services/api';
+  ScrollView,
+} from "react-native";
+import { mealAPI } from "../services/api";
 
-const { width } = Dimensions.get('window');
+const { width } = Dimensions.get("window");
 const itemWidth = (width - 30) / 2;
 
 const CategoriesScreen = ({ navigation }) => {
@@ -30,7 +30,7 @@ const CategoriesScreen = ({ navigation }) => {
       const data = await mealAPI.getCategories();
       setCategories(data);
     } catch (error) {
-      Alert.alert('Error', 'No se pudieron cargar las categorías');
+      Alert.alert("Error", "No se pudieron cargar las categorías");
     } finally {
       setLoading(false);
     }
@@ -39,10 +39,12 @@ const CategoriesScreen = ({ navigation }) => {
   const renderCategory = ({ item }) => (
     <TouchableOpacity
       style={styles.categoryCard}
-      onPress={() => navigation.navigate('RecipeList', { 
-        category: item.strCategory,
-        categoryName: item.strCategory 
-      })}
+      onPress={() =>
+        navigation.navigate("RecipeList", {
+          category: item.strCategory,
+          categoryName: item.strCategory,
+        })
+      }
     >
       <Image
         source={{ uri: item.strCategoryThumb }}
@@ -71,23 +73,33 @@ const CategoriesScreen = ({ navigation }) => {
     <View style={styles.container}>
       <View style={styles.header}>
         <Text style={styles.title}>Categorías de Recetas</Text>
-        <Text style={styles.subtitle}>Explora deliciosas recetas por categoría</Text>
-        <TouchableOpacity 
-          style={styles.searchButton}
-          onPress={() => navigation.navigate('Search')}
-        >
-          <Text style={styles.searchButtonText}>🔍 Buscar Recetas</Text>
-        </TouchableOpacity>
+        <Text style={styles.subtitle}>
+          Explora deliciosas recetas por categoría
+        </Text>
+        <View style={styles.headerButtons}>
+          <TouchableOpacity
+            style={styles.searchButton}
+            onPress={() => navigation.navigate("Search")}
+          >
+            <Text style={styles.searchButtonText}>🔍 Buscar Recetas</Text>
+          </TouchableOpacity>
+          <TouchableOpacity
+            style={styles.favoritesButton}
+            onPress={() => navigation.navigate("Favorites")}
+          >
+            <Text style={styles.favoritesButtonText}>Favoritos ❤️</Text>
+          </TouchableOpacity>
+        </View>
       </View>
-      
-        <FlatList
-            data={categories}
-            renderItem={renderCategory}
-            keyExtractor={(item) => item.idCategory}
-            numColumns={2}
-            contentContainerStyle={styles.listContainer}
-            showsVerticalScrollIndicator={false}
-        />
+
+      <FlatList
+        data={categories}
+        renderItem={renderCategory}
+        keyExtractor={(item) => item.idCategory}
+        numColumns={2}
+        contentContainerStyle={styles.listContainer}
+        showsVerticalScrollIndicator={false}
+      />
     </View>
   );
 };
@@ -95,38 +107,60 @@ const CategoriesScreen = ({ navigation }) => {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-    backgroundColor: '#F8F9FA',
+    backgroundColor: "#F8F9FA",
   },
   header: {
     padding: 20,
     paddingTop: 60,
-    backgroundColor: '#FF6B6B',
+    backgroundColor: "#FF6B6B",
   },
-  title: {
-    fontSize: 28,
-    fontWeight: 'bold',
-    color: 'white',
-    textAlign: 'center',
+  headerButtons: {
+    flexDirection: "row",
+    justifyContent: "space-between",
+    alignItems: "center",
+    marginTop: 15,
   },
-  subtitle: {
-    fontSize: 16,
-    color: 'white',
-    textAlign: 'center',
-    marginTop: 5,
-    opacity: 0.9,
-  },
-  searchButton: {
-    backgroundColor: 'rgba(255,255,255,0.2)',
+  favoritesButton: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    width: "38%",
     borderRadius: 25,
     paddingVertical: 10,
     paddingHorizontal: 20,
     marginTop: 15,
-    alignSelf: 'center',
+    alignSelf: "center",
+    alignItems: "center",
+  },
+  favoritesButtonText: {
+    color: "white",
+    fontSize: 16,
+    fontWeight: "600",
+  },
+  title: {
+    fontSize: 28,
+    fontWeight: "bold",
+    color: "white",
+    textAlign: "center",
+  },
+  subtitle: {
+    fontSize: 16,
+    color: "white",
+    textAlign: "center",
+    marginTop: 5,
+    opacity: 0.9,
+  },
+  searchButton: {
+    backgroundColor: "rgba(255,255,255,0.2)",
+    width: "60%",
+    borderRadius: 25,
+    paddingVertical: 10,
+    paddingHorizontal: 20,
+    marginTop: 15,
+    alignSelf: "center",
   },
   searchButtonText: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: '600',
+    fontWeight: "600",
   },
   listContainer: {
     padding: 10,
@@ -136,10 +170,10 @@ const styles = StyleSheet.create({
     height: 200,
     margin: 5,
     borderRadius: 15,
-    overflow: 'hidden',
-    backgroundColor: 'white',
+    overflow: "hidden",
+    backgroundColor: "white",
     elevation: 5,
-    shadowColor: '#000',
+    shadowColor: "#000",
     shadowOffset: {
       width: 0,
       height: 2,
@@ -148,40 +182,40 @@ const styles = StyleSheet.create({
     shadowRadius: 3.84,
   },
   categoryImage: {
-    width: '100%',
-    height: '70%',
+    width: "100%",
+    height: "70%",
   },
   categoryOverlay: {
-    position: 'absolute',
+    position: "absolute",
     bottom: 0,
     left: 0,
     right: 0,
-    backgroundColor: 'rgba(0,0,0,0.7)',
+    backgroundColor: "rgba(0,0,0,0.7)",
     padding: 10,
   },
   categoryName: {
-    color: 'white',
+    color: "white",
     fontSize: 16,
-    fontWeight: 'bold',
-    textAlign: 'center',
+    fontWeight: "bold",
+    textAlign: "center",
   },
   categoryDescription: {
-    color: 'white',
+    color: "white",
     fontSize: 12,
-    textAlign: 'center',
+    textAlign: "center",
     marginTop: 2,
     opacity: 0.8,
   },
   loadingContainer: {
     flex: 1,
-    justifyContent: 'center',
-    alignItems: 'center',
-    backgroundColor: '#F8F9FA',
+    justifyContent: "center",
+    alignItems: "center",
+    backgroundColor: "#F8F9FA",
   },
   loadingText: {
     marginTop: 10,
     fontSize: 16,
-    color: '#666',
+    color: "#666",
   },
 });
 
